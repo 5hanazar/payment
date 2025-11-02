@@ -19,7 +19,7 @@ class LocationListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: AspectRatio(
         aspectRatio: 16 / 9,
         child: ClipRRect(
@@ -44,20 +44,20 @@ class LocationListItem extends StatelessWidget {
         backgroundImageKey: _backgroundImageKey,
       ),
       children: [
-        Image.asset(imageUrl, key: _backgroundImageKey, fit: BoxFit.cover),
+        Image.asset(imageUrl, key: _backgroundImageKey),
       ],
     );
   }
 
   Widget _buildGradient() {
-    return const Positioned.fill(
+    return Positioned.fill(
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.transparent, Colors.black],
+            colors: [Colors.blue.shade800.withOpacity(0.6), Colors.blue.withOpacity(0)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            stops: [0.6, 0.95],
+            stops: const [0.0, 0.3],
           ),
         ),
       ),
@@ -65,26 +65,21 @@ class LocationListItem extends StatelessWidget {
   }
 
   Widget _buildTitleAndSubtitle() {
-    return Positioned(
-      left: 20,
-      bottom: 20,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            name,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+      child: Text(
+        name,
+        style: const TextStyle(
+          color: Colors.white,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+          shadows: <Shadow>[
+            Shadow(
+              blurRadius: 8.0,
+              color: Color.fromARGB(128, 0, 0, 0), // Semi-transparent black
             ),
-          ),
-          Text(
-            country,
-            style: const TextStyle(color: Colors.white, fontSize: 14),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

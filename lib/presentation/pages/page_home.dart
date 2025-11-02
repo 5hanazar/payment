@@ -12,24 +12,19 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final locations = <LocationDto>[
     LocationDto(
-      imageUrl: 'assets/img_telekom.png',
-      name: 'Grand Canyon',
-      country: 'USA',
-    ),
-    LocationDto(
-      imageUrl: 'assets/img_astu.webp',
-      name: 'Tokyo Skytree',
-      country: 'Japan',
-    ),
-    LocationDto(
       imageUrl: 'assets/img_tmcell.jpg',
-      name: 'Eiffel Tower',
-      country: 'France',
+      name: 'TM CELL',
+      country: 'Turkmenistan',
     ),
     LocationDto(
-      imageUrl: 'assets/img_astu.webp',
-      name: 'Colosseum',
-      country: 'Italy',
+      imageUrl: 'assets/img_astu.jpg',
+      name: 'AŞTU',
+      country: 'Turkmenistan',
+    ),
+    LocationDto(
+      imageUrl: 'assets/img_telekom.jpg',
+      name: 'Telekom',
+      country: 'Turkmenistan',
     ),
   ];
 
@@ -37,6 +32,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
