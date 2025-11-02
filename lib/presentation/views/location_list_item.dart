@@ -19,7 +19,7 @@ class LocationListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
       child: AspectRatio(
         aspectRatio: 16 / 9,
         child: ClipRRect(
@@ -54,7 +54,7 @@ class LocationListItem extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: LinearGradient(
-            colors: [Colors.blue.shade800.withOpacity(0.6), Colors.blue.withOpacity(0)],
+            colors: [Colors.blue.shade900.withOpacity(0.7), Colors.blue.withOpacity(0)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
             stops: const [0.0, 0.3],
@@ -71,11 +71,11 @@ class LocationListItem extends StatelessWidget {
         name,
         style: const TextStyle(
           color: Colors.white,
-          fontSize: 20,
+          fontSize: 22,
           fontWeight: FontWeight.bold,
           shadows: <Shadow>[
             Shadow(
-              blurRadius: 8.0,
+              blurRadius: 8,
               color: Color.fromARGB(128, 0, 0, 0), // Semi-transparent black
             ),
           ],
