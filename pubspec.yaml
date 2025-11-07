@@ -38,6 +38,7 @@ dependencies:
   sim_card_info: ^1.0.2
   flutter_svg: ^2.1.0
   lottie: ^3.1.3
+  url_launcher: ^6.3.0
 
 dev_dependencies:
   flutter_test:
@@ -69,6 +70,13 @@ flutter:
     - assets/lottie_signal.json
     - assets/svg_sim_card.svg
     - assets/svg_chip.svg
+    - assets/internet_3.png
+    - assets/internet_5.png
+    - assets/internet_10.png
+    - assets/internet_15.png
+    - assets/internet_60.png
+    - assets/internet_160.png
+    - assets/internet_200.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
