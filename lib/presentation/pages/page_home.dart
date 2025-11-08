@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
-import 'package:payment/location.dart';
+import 'package:payment/presentation/views/internet_column_item.dart';
+import 'package:payment/presentation/views/internet_row_item.dart';
 import 'package:payment/presentation/views/location_list_item.dart';
 import 'package:payment/presentation/views/sim_card_item.dart';
 import 'package:sim_card_info/sim_card_info.dart';
@@ -16,23 +16,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final locations = <LocationDto>[
-    LocationDto(
-      imageUrl: 'assets/img_tmcell.jpg',
-      name: 'TM CELL - Telefon',
-      country: 'Turkmenistan',
-    ),
-    LocationDto(
-      imageUrl: 'assets/img_astu.jpg',
-      name: 'AŞTU - Internet',
-      country: 'Turkmenistan',
-    ),
-    LocationDto(
-      imageUrl: 'assets/img_telekom.jpg',
-      name: 'Telekom - Internet',
-      country: 'Turkmenistan',
-    ),
-  ];
   List<SimInfo>? simInfo;
 
   @override
@@ -57,6 +40,43 @@ class _HomePageState extends State<HomePage> {
     await launchUrl(launchUri);
   }
 
+  _caption(String text) {
+    return Container(margin: const EdgeInsets.only(top: 24, right: 8, bottom: 6, left: 8), child: Text(text, style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white, shadows: <Shadow>[
+      Shadow(
+        blurRadius: 16,
+        color: Color.fromARGB(100, 0, 0, 100), // Semi-transparent black
+      ),
+    ])));
+  }
+
+  _callService(String text, String phone) {
+    return SizedBox(
+      height: 150,
+      width: (MediaQuery.of(context).size.width / 2) - 14,
+      child: Card(clipBehavior: Clip.hardEdge, color: Colors.white, child: InkWell(
+          onTap: () {
+            _makePhoneCall(phone);
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(margin: const EdgeInsets.only(bottom: 6), child: Text(text, style: const TextStyle(fontSize: 20, height: 1.1, fontWeight: FontWeight.bold))),
+                Row(
+                  children: [
+                    Icon(Icons.phone, size: 20, color: Colors.blue.shade700),
+                    Expanded(child: Text(phone, style: TextStyle(color: Colors.blue.shade700, overflow: TextOverflow.ellipsis),)),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        )
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +88,7 @@ class _HomePageState extends State<HomePage> {
             end: Alignment.bottomRight,
             colors: [
               Color(0xFFB3E5FC), // vibrant blue
-              Color(0xFFFFFFFF), // deep blue
+              Color(0xFFEDE7F6), // deep blue
               Color(0xFFF8BBD0), // soft pink
             ],
             stops: [0.0, 0.5, 1.0],
@@ -84,151 +104,58 @@ class _HomePageState extends State<HomePage> {
                   if (simInfo == null ? false : simInfo!.isNotEmpty)
                   Stack(
                     children: [
-                      Container(margin: const EdgeInsets.only(top: 24, right: 8, bottom: 6, left: 8),
-                          child: const Text("SIM Kartlar", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white))),
+                      _caption("SIM Kartlar"),
                       Positioned(bottom: -20, right: 8, child: Lottie.asset('assets/lottie_signal.json', width: 120, height: 120, frameRate: const FrameRate(60))),
                     ],
                   ),
                   for (final sim in simInfo ?? []) SimCardItem(operator: sim.displayName, phone: sim.number == "" ? "N/A" : sim.number),
-                  Container(margin: const EdgeInsets.only(top: 24, right: 8, bottom: 6, left: 8), child: const Text("Operatorlar", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white))),
-                  for (final location in locations)
-                    GestureDetector(
-                      onTap: () {
-
-                      },
-                      child: LocationListItem(
-                        imageUrl: location.imageUrl,
-                        name: location.name,
-                        country: location.country,
-                      ),
-                    ),
-                  Container(margin: const EdgeInsets.only(top: 24, right: 8, bottom: 6, left: 8), child: const Text("Internet Bukjalar", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white))),
-                  GestureDetector(
-                    onTap: () {
-                      _makePhoneCall("*0850*3#");
-                    },
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Column(
-                          children: [
-                            Image.asset("assets/internet_3.png"),
-                            const Text("Internet-3\nBukjanyň göwrümi: 50 MB\nBahasy: 3 TMT\nHyzmat ediş bukjasynyň möhleti: 30 gün", style: TextStyle(fontSize: 18)),
-                          ],
-                        ),
-                      ),
-                    ),
+                  _caption("Operatorlar"),
+                  LocationListItem(
+                    imageUrl: 'assets/img_tmcell.jpg',
+                    name: 'TM CELL - Telefon',
+                    country: 'Turkmenistan',
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      _makePhoneCall("*0850*5#");
-                    },
-                    child: Card(
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          children: [
-                            Container(margin: const EdgeInsets.only(right: 16), child: Image.asset("assets/internet_5.png", width: 100)),
-                            //const Expanded(child: Text("Internet-5\nBukjanyň göwrümi: 100 MB\nBahasy: 5 TMT\nHyzmat ediş bukjasynyň möhleti: 30 gün", style: TextStyle(fontSize: 18, overflow: TextOverflow.ellipsis))),
-                            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              Container(margin: const EdgeInsets.only(bottom: 4), decoration: BoxDecoration(borderRadius: BorderRadius.circular(18), color: Colors.blue), child: const Padding(
-                                padding: EdgeInsets.symmetric(vertical: 4, horizontal: 16),
-                                child: Text("100 MB", style: TextStyle(color: Colors.white, fontSize: 24)),
-                              )),
-                              Row(children: [
-                                const Text("5", style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold)),
-                                const Expanded(child: Text(" TMT", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold))),
-                                const Text("30", style: TextStyle(fontSize: 24, color: Colors.grey)),
-                                const Text(" GÜN ", style: TextStyle(fontSize: 18, color: Colors.grey)),
-                                Container(margin: const EdgeInsets.only(bottom: 2), child: const Icon(Icons.calendar_month, size: 28, color: Colors.grey))
-                              ])
-                            ])),
-                          ],
-                        ),
-                      ),
-                    ),
+                  LocationListItem(
+                    imageUrl: 'assets/img_astu.jpg',
+                    name: 'AŞTU - Internet',
+                    country: 'Turkmenistan',
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      _makePhoneCall("*0850*10#");
-                    },
-                    child: Card(
-                      color: Colors.white,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
-                        child: Column(
-                          children: [
-                            Image.asset("assets/internet_10.png"),
-                            const Text("Internet-10\nBukjanyň göwrümi: 250 MB\nBahasy: 10 TMT\nHyzmat ediş bukjasynyň möhleti: 30 gün", style: TextStyle(fontSize: 18)),
-                          ],
-                        ),
-                      ),
-                    ),
+                  LocationListItem(
+                    imageUrl: 'assets/img_telekom.jpg',
+                    name: 'Telekom - Internet',
+                    country: 'Turkmenistan',
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      _makePhoneCall("*0850*15#");
-                    },
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          children: [
-                            Image.asset("assets/internet_15.png", width: 100),
-                            const Expanded(child: Text("Internet-15\nBukjanyň göwrümi: 500 MB\nBahasy: 15 TMT\nHyzmat ediş bukjasynyň möhleti: 30 gün", style: TextStyle(fontSize: 18, overflow: TextOverflow.ellipsis))),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      _makePhoneCall("*0850*60#");
-                    },
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          children: [
-                            Image.asset("assets/internet_60.png", width: 100),
-                            const Expanded(child: Text("Internet-60\nBukjanyň göwrümi: 1.5 GB\nBahasy: 60 TMT\nHyzmat ediş bukjasynyň möhleti: 30 gün", style: TextStyle(fontSize: 18))),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      _makePhoneCall("*0850*160#");
-                    },
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          children: [
-                            Image.asset("assets/internet_160.png"),
-                            const Text("Internet-60\nBukjanyň göwrümi: 4 GB\nBahasy: 160 TMT\nHazmat ediş bukjasynyň möhleti: 30 gün", style: TextStyle(fontSize: 18))
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      _makePhoneCall("*0850*200#");
-                    },
-                    child: Card(
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Row(
-                          children: [
-                            Image.asset("assets/internet_200.png", width: 100),
-                            const Expanded(child: Text("Internet-200\nBukjanyň göwrümi: 20 GB\nBahasy: 200 TMT\nHyzmat ediş bukjasynyň möhleti: 30 gün", style: TextStyle(fontSize: 18))),
-                          ],
-                        ),
-                      ),
-                    ),
+                  _caption("Internet Bukjalar"),
+                  const InternetColumnItem(img: "assets/internet_3.png", mb: "50 MB", price: "3"),
+                  const InternetRowItem(img: "assets/internet_5.png", mb: "100 MB", price: "5"),
+                  const InternetColumnItem(img: "assets/internet_10.png", mb: "250 MB", price: "10"),
+                  const InternetRowItem(img: "assets/internet_15.png", mb: "500 MB", price: "15"),
+                  const InternetRowItem(img: "assets/internet_60.png", mb: "1.5 GB", price: "60"),
+                  const InternetColumnItem(img: "assets/internet_160.png", mb: "4 GB", price: "160"),
+                  const InternetRowItem(img: "assets/internet_200.png", mb: "20 GB", price: "200"),
+                  _caption("Hyzmatlar"),
+                  Wrap(
+                    alignment: WrapAlignment.start,
+                    children: [
+                      _callService("Aragatnaşygyň görnüşi", "*0809*1#"),
+                      _callService("Şäherara hyzmaty açmak", "*0809*1*1#"),
+                      _callService("Halkara hyzmatyny açmak", "*0809*1*2#"),
+                      _callService("Hyzmatlaryň görnüşi", "*0809*2#"),
+                      _callService("Täleýnama", "*110#"),
+                      _callService("Ulanylýan nyrhnamany bilmek", "*0809*6*1*1#"),
+                      _callService("Nyrhnamany üýtgetmek", "*0809*6*1*2#"),
+                      _callService("WCDMA 3G-Internet", "*0809*6*1*2*104#"),
+                      _callService("Tygşytly", "*0809*6*1*2*106#"),
+                      _callService("Amatly", "*0809*6*1*2*109#"),
+                      _callService("Seniň ulgamyň 1", "*0809*6*1*2*119#"),
+                      _callService("Sada", "*0809*6*1*2*122#"),
+                      _callService("Gürleşiber", "*0809*6*1*2*126#"),
+                      _callService("Sowgat-2000", "*0809*6*1*2*130#"),
+                      _callService("Sowgat 1000+", "*0809*6*1*2*131#"),
+                      _callService("Çäksiz gepleşikler +", "*0809*6*1*2*132#"),
+                      _callService("Internet 50", "*0809*6*1*2*133#"),
+                      _callService("Sowgat 500", "*0809*6*1*2*140#")
+                    ],
                   ),
                 ],
               ),
