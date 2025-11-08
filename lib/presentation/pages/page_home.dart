@@ -41,7 +41,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   _caption(String text) {
-    return Container(margin: const EdgeInsets.only(top: 24, right: 8, bottom: 6, left: 8), child: Text(text, style: const TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.white, shadows: <Shadow>[
+    return Container(margin: const EdgeInsets.only(top: 24, right: 8, bottom: 8, left: 8), child: Text(text, style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white, fontFamily: "Roboto", shadows: <Shadow>[
       Shadow(
         blurRadius: 16,
         color: Color.fromARGB(100, 0, 0, 100), // Semi-transparent black
@@ -87,9 +87,9 @@ class _HomePageState extends State<HomePage> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              Color(0xFFB3E5FC), // vibrant blue
-              Color(0xFFEDE7F6), // deep blue
-              Color(0xFFF8BBD0), // soft pink
+              Color(0xFFE0F2F1), // vibrant blue
+              Color(0xFFB3E5FC), // deep blue
+              Color(0xFFE0F2F1), // soft pink
             ],
             stops: [0.0, 0.5, 1.0],
           ),
@@ -97,15 +97,15 @@ class _HomePageState extends State<HomePage> {
         child: SafeArea(
           child: SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 14),
+              padding: const EdgeInsets.only(top: 0, right: 14, bottom: 16, left: 14),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   if (simInfo == null ? false : simInfo!.isNotEmpty)
                   Stack(
                     children: [
-                      _caption("SIM Kartlar"),
-                      Positioned(bottom: -20, right: 8, child: Lottie.asset('assets/lottie_signal.json', width: 120, height: 120, frameRate: const FrameRate(60))),
+                      Container(margin: const EdgeInsets.only(top: 24), child: _caption("SIM Kartlar")),
+                      Positioned(bottom: -28, right: 8, child: Lottie.asset('assets/lottie_signal.json', width: 120, height: 120, frameRate: const FrameRate(60))),
                     ],
                   ),
                   for (final sim in simInfo ?? []) SimCardItem(operator: sim.displayName, phone: sim.number == "" ? "N/A" : sim.number),
@@ -125,15 +125,27 @@ class _HomePageState extends State<HomePage> {
                     name: 'Telekom - Internet',
                     country: 'Turkmenistan',
                   ),
-                  _caption("Internet Bukjalar"),
-                  const InternetColumnItem(img: "assets/internet_3.png", mb: "50 MB", price: "3"),
+                  Container(margin: const EdgeInsets.only(top: 64, bottom: 8), child:  _caption("Internet Bukjalar")),
+                  Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      const InternetColumnItem(img: "assets/internet_3.png", mb: "50 MB", price: "3"),
+                      Positioned(bottom: 100, left: (MediaQuery.of(context).size.width / 2) - 64, child: Lottie.asset('assets/the_network.json', width: 320, frameRate: const FrameRate(60))),
+                    ],
+                  ),
                   const InternetRowItem(img: "assets/internet_5.png", mb: "100 MB", price: "5"),
                   const InternetColumnItem(img: "assets/internet_10.png", mb: "250 MB", price: "10"),
                   const InternetRowItem(img: "assets/internet_15.png", mb: "500 MB", price: "15"),
                   const InternetRowItem(img: "assets/internet_60.png", mb: "1.5 GB", price: "60"),
                   const InternetColumnItem(img: "assets/internet_160.png", mb: "4 GB", price: "160"),
                   const InternetRowItem(img: "assets/internet_200.png", mb: "20 GB", price: "200"),
-                  _caption("Hyzmatlar"),
+                  Stack(
+                    alignment: Alignment.centerLeft,
+                    children: [
+                      Lottie.asset('assets/tech_support.json', frameRate: const FrameRate(60)),
+                      Container(margin: const EdgeInsets.only(bottom: 28), child: _caption("Hyzmatlar"))
+                    ],
+                  ),
                   Wrap(
                     alignment: WrapAlignment.start,
                     children: [

@@ -25,20 +25,18 @@ class _SimCardItemState extends State<SimCardItem> with SingleTickerProviderStat
     return Card(
       clipBehavior: Clip.hardEdge,
       margin: const EdgeInsets.only(bottom: 10),
-      color: Colors.white,
+      color: const Color(0xFFF0F9FD),
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.all(16),
-            child: Row(children: [
-              SvgPicture.asset('assets/svg_sim_card.svg', height: 80),
-              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Text(widget.operator, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.blue)),
-                Text(widget.phone, style: const TextStyle(fontSize: 16))
-              ]),
+            padding: const EdgeInsets.only(top: 24, left: 120, bottom: 24, right: 24),
+            child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(widget.operator, style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.blue)),
+              Text(widget.phone, style: const TextStyle(fontSize: 16))
             ]),
           ),
-          Positioned(right: -42, top: 19, child: SvgPicture.asset('assets/svg_chip.svg', height: 150)),
+          Positioned(top: -30, child: SvgPicture.asset('assets/svg_sim_card.svg', height: 120)),
+          Positioned(right: -42, top: 18, child: SvgPicture.asset('assets/svg_chip.svg', height: 150)),
           // Positioned(bottom: -20, right: 8, child: Lottie.asset('assets/lottie_signal.json', width: 120, height: 120, frameRate: FrameRate(60), controller: _controller,
           //     onLoaded: (composition) {
           //       _controller

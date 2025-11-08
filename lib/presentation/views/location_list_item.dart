@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
-const Color darkBlue = Color.fromARGB(255, 18, 32, 47);
-
 class LocationListItem extends StatelessWidget {
   LocationListItem({
     super.key,
@@ -19,7 +17,7 @@ class LocationListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 4),
+      padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
       child: AspectRatio(
         aspectRatio: 16 / 9,
         child: ClipRRect(
@@ -71,7 +69,7 @@ class LocationListItem extends StatelessWidget {
         name,
         style: const TextStyle(
           color: Colors.white,
-          fontSize: 22,
+          fontSize: 24,
           fontWeight: FontWeight.bold,
           shadows: <Shadow>[
             Shadow(
