@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" tools:ignore="ProtectedPermissions" />
     <application
-        android:label="payment"
+        android:label="Bega Pay"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
