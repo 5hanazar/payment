@@ -35,10 +35,12 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
-  sim_card_info: ^1.0.2
+  # sim_card_info: ^1.0.2
   flutter_svg: ^2.1.0
   lottie: ^3.1.3
   url_launcher: ^6.3.0
+  get: ^4.6.6
+  fluttertoast: ^8.2.12
 
 dev_dependencies:
   flutter_test:
@@ -79,6 +81,9 @@ flutter:
     - assets/internet_200.png
     - assets/tech_support.json
     - assets/the_network.json
+    - assets/lottie_payment.json
+    - assets/chip_card.svg
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

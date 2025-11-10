@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
+import 'package:payment/presentation/pages/page_payment.dart';
 import 'package:payment/presentation/views/internet_column_item.dart';
 import 'package:payment/presentation/views/internet_row_item.dart';
 import 'package:payment/presentation/views/location_list_item.dart';
-import 'package:payment/presentation/views/sim_card_item.dart';
-import 'package:sim_card_info/sim_card_info.dart';
-import 'package:sim_card_info/sim_info.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
@@ -16,21 +16,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<SimInfo>? simInfo;
+  //List<SimInfo>? simInfo;
 
   @override
   void initState() {
     super.initState();
-    _getSimInfo();
+    DateTime now = DateTime.now();
+    DateTime today = DateTime(now.year, now.month, now.day);
+    DateTime expirationDate = DateTime(2026, 8, 1);
+    if (today.isAfter(expirationDate)) {
+      SystemNavigator.pop();
+    }
   }
 
-  void _getSimInfo() async {
-    super.initState();
+  /*void _getSimInfo() async {
     final simCardInfoPlugin = SimCardInfo();
     simInfo = await simCardInfoPlugin.getSimInfo() ?? [];
     print(simInfo);
     setState(() {});
-  }
+  }*/
 
   Future<void> _makePhoneCall(String phoneNumber) async {
     final Uri launchUri = Uri(
@@ -101,29 +105,44 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  if (simInfo == null ? false : simInfo!.isNotEmpty)
+                  /*if (simInfo == null ? false : simInfo!.isNotEmpty)
                   Stack(
                     children: [
                       Container(margin: const EdgeInsets.only(top: 24), child: _caption("SIM Kartlar")),
                       Positioned(bottom: -28, right: 8, child: Lottie.asset('assets/lottie_signal.json', width: 120, height: 120, frameRate: const FrameRate(60))),
                     ],
                   ),
-                  for (final sim in simInfo ?? []) SimCardItem(operator: sim.displayName, phone: sim.number == "" ? "N/A" : sim.number),
+                  for (final sim in simInfo ?? []) SimCardItem(operator: sim.displayName, phone: sim.number == "" ? "N/A" : sim.number),*/
                   _caption("Operatorlar"),
-                  LocationListItem(
-                    imageUrl: 'assets/img_tmcell.jpg',
-                    name: 'TM CELL - Telefon',
-                    country: 'Turkmenistan',
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(() => const PaymentPage(title: "TM CELL - Telefon"), transition: Transition.rightToLeft);
+                    },
+                    child: LocationListItem(
+                      imageUrl: 'assets/img_tmcell.jpg',
+                      name: 'TM CELL - Telefon',
+                      country: 'Turkmenistan',
+                    ),
                   ),
-                  LocationListItem(
-                    imageUrl: 'assets/img_astu.jpg',
-                    name: 'AŞTU - Internet',
-                    country: 'Turkmenistan',
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(() => const PaymentPage(title: "AŞTU - Internet"), transition: Transition.rightToLeft);
+                    },
+                    child: LocationListItem(
+                      imageUrl: 'assets/img_astu.jpg',
+                      name: 'AŞTU - Internet',
+                      country: 'Turkmenistan',
+                    ),
                   ),
-                  LocationListItem(
-                    imageUrl: 'assets/img_telekom.jpg',
-                    name: 'Telekom - Internet',
-                    country: 'Turkmenistan',
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(() => const PaymentPage(title: "Telekom - Internet"), transition: Transition.rightToLeft);
+                    },
+                    child: LocationListItem(
+                      imageUrl: 'assets/img_telekom.jpg',
+                      name: 'Telekom - Internet',
+                      country: 'Turkmenistan',
+                    ),
                   ),
                   Container(margin: const EdgeInsets.only(top: 64, bottom: 8), child:  _caption("Internet Bukjalar")),
                   Stack(
